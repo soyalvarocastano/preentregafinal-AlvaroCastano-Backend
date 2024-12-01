@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "title": "guitarra acustica taylor",
+    "description": "guitarra electroacustica marca taylor 6 cuerdas",
+    "code": "124abc",
+    "price": "2000",
+    "status": true,
+    "stock": "5",
+    "category": "guitarras"
+  },
+  {
+    "id": 2,
+    "title": "guitarra acustica yamaha",
+    "description": "guitarra electroacustica marca yamaha 6 cuerdas",
+    "code": "124abbc",
+    "price": "3000",
+    "status": true,
+    "stock": "10",
+    "category": "guitarras"
+  },
+  {
+    "id": 3,
+    "title": "guitarra acustica yamaha",
+    "description": "guitarra electroacustica marca yamaha 6 cuerdas",
+    "code": "124abbc",
+    "price": "3000",
+    "status": true,
+    "stock": "10",
+    "category": "guitarras"
+  },
+  {
+    "id": 4,
+    "title": "guitarra acustica fender",
+    "description": "guitarra electroacustica marca yamaha 6 cuerdas",
+    "code": "124abbc",
+    "price": "2000000",
+    "status": true,
+    "stock": "10",
+    "category": "guitarras"
+  },
+  {
+    "id": 5,
+    "title": "guitarra acustica fender",
+    "description": "guitarra electroacustica marca yamaha 6 cuerdas",
+    "code": "124abbc",
+    "price": "3000",
+    "status": true,
+    "stock": "10",
+    "category": "guitarras"
+  }
+]
