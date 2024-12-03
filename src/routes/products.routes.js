@@ -15,7 +15,7 @@ let products =[];
 //LISTAR
 router.get("/", async (req,res)=>{
     try {
-    const limit = req.query.limit ? parent(req.query.limit) : undefined
+    const limit = req.query.limit ? parseInt(req.query.limit) : undefined
     const products= await productManager.getAllProducts(limit)
     res.json(products)
     } catch (error) {
@@ -42,7 +42,7 @@ try {
 })
 
 //CREAR
-router.post("/", async (req,res)=>{
+/* router.post("/", async (req,res)=>{
 
     try {
         const { title, description, code, price, stock, category, thumbnails} = req.body
@@ -56,20 +56,27 @@ router.post("/", async (req,res)=>{
         console.log(error);
         
     }
-/* let product= req.body */
+}) */
 
-//asignamos un id desde nuestro backend
-/* const numRandom = Math.floor(Math.random()* 200 + 1)
-product.id = numRandom + products.length */
-
-// validamos
-/* if(!product.title || !product.description || !product.code || !product.price || !product.status || !product.stock || !product.category ){
-    return res.status(400).send('Debe enviar todos los datos')
-} */
-
-/* products.push(product)
-res.send({status: 'success', msg: "Producto creado"}) */
-})
+    router.post('/', async (req, res) => {
+        try {
+            console.log('Datos recibidos en POST:', req.body);
+            const newProduct = await productManager.addProduct(req.body);
+            console.log('Producto creado:', newProduct);
+            
+            // Obtener todos los productos actualizados
+            const updatedProducts = await productManager.getAllProducts();
+            
+            // Emitir el evento de actualización
+            const io = req.app.get('io');
+            io.emit('updateProducts', updatedProducts);
+            
+            res.status(201).json(newProduct);
+        } catch (error) {
+            console.error('Error en POST /api/product:', error);
+            res.status(400).json({ error: error.message });
+        }
+    });
 
 //ACTUALIZAR
  router.put("/:pid", async (req,res)=>{
@@ -87,18 +94,7 @@ res.send({status: 'success', msg: "Producto creado"}) */
         console.log(error);
         
     }
-    /* let productId = parseInt(req.params.productId)
-    let productUpdate= req.body
-    
-    const productPosition = products.findIndex(product => product.id === productId)
 
-    if(productPosition < 0) {
-        return res.status(404).send('producto no encontrado')
-    }
-
-    products[productPosition]= productUpdate
-    
-    res.send({status: 'success', msg: "producto actualizado"}) */
     }) 
 
 
@@ -118,19 +114,6 @@ router.delete("/:pid", async (req,res)=>{
         console.log(error);
         res.status(500).json({ error: "Error interno del servidor" });   
     }
-    /* let productId = parseInt(req.params.productId)
-    
-    
-    const productPosition = products.findIndex(product => product.id === productId)
-
-    if(productPosition < 0) {
-        return res.status(404).send('Producto no encontrado')
-    }
-
-    //eliminamos al producto de la lista
-    products.splice(productPosition, 1)
-    
-    res.send({status: 'success', msg: "producto eliminado"}) */
     })
 
 export default router;

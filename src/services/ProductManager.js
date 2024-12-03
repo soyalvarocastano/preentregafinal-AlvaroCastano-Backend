@@ -25,9 +25,14 @@ async init(){
 //METODOS
 
 //saveToFile
-async saveToFile(){
-    const jsonData = JSON.stringify(this.products, null, 2);
-    await fs.writeFile(productsFilePath, jsonData);
+async saveToFile() {
+    try {
+        const jsonData = JSON.stringify(this.products, null, 2);
+        await fs.writeFile(productsFilePath, jsonData);
+    } catch (error) {
+        console.error('Error al guardar los productos:', error);
+        throw error; 
+    }
 }
 
 //getAllProducts
@@ -52,7 +57,7 @@ const newProduct = {
 this.products.push(newProduct);
 
 //hacer guardado en el archivo
-this.saveToFile()
+await this.saveToFile()
 return newProduct
 }
 
@@ -78,6 +83,7 @@ async deleteProduct(id){
     if (productIndex === -1) return null;
 
     const [deletedProduct] = this.products.splice(productIndex, 1); 
+    await this.saveToFile()
   return deletedProduct;
 }
 
