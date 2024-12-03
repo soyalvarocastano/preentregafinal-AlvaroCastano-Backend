@@ -31,7 +31,7 @@ router.get('/realtimeproducts', async (req, res) =>{
     }
 })
 
-router.post('/', async (req, res) => {
+router.post('/new', async (req, res) => {
     try {
         console.log('Datos recibidos en POST:', req.body);
         const newProduct = await productManager.addProduct(req.body);

@@ -21,7 +21,7 @@ document.getElementById('productForm').addEventListener('submit', async (e) => {
     console.log('Datos del producto a crear:', product);
 
     try {
-        const response = await fetch('/api/product', {
+        const response = await fetch('http://localhost:8080/api/product', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -31,18 +31,7 @@ document.getElementById('productForm').addEventListener('submit', async (e) => {
 
         console.log('Respuesta del servidor:', response);
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || 'Error al crear el producto');
-        }
 
-        const newProduct = await response.json();
-        console.log('Producto creado:', newProduct);
-
-        // Emitir evento al servidor
-        socket.emit('productAdded', newProduct);
-        
-        // Limpiar formulario
         e.target.reset();
         
     } catch (error) {
@@ -75,7 +64,7 @@ socket.on('updateProducts', (products) => {
 async function deleteProduct(id) {
     console.log('Intentando eliminar producto:', id);
     try {
-        const response = await fetch(`/api/product/${id}`, {
+        const response = await fetch(`/${id}`, {
             method: 'DELETE'
         });
 

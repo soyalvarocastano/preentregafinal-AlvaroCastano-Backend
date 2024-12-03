@@ -1,7 +1,6 @@
-<div class="container">
+{{!-- <div class="container">
     <h1>Productos en Tiempo Real</h1>
 
-    {{!-- Formulario --}}
     <div class="form-container">
         <h2>Agregar Nuevo Producto</h2>
         <form id="productForm">
@@ -39,8 +38,97 @@
         </form>
     </div>
 
-    {{!-- Lista de Productos --}}
-    <div id="productList" class="product-list">
+  
+        <script src="../public/js/realTimeProducts.js"></script>
+
+</div>
+ --}}
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Producto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+        }
+
+        input, textarea, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>Crear Producto</h1>
+    <form id="productForm">
+        <div class="form-group">
+            <label for="title">Título</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Descripción</label>
+            <textarea id="description" name="description" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="price">Precio</label>
+            <input type="number" id="price" name="price" step="0.01" required>
+        </div>
+
+        <div class="form-group">
+            <label for="code">Código</label>
+            <input type="text" id="code" name="code" required>
+        </div>
+
+        <div class="form-group">
+            <label for="stock">Stock</label>
+            <input type="number" id="stock" name="stock" required>
+        </div>
+
+        <div class="form-group">
+            <label for="category">Categoría</label>
+            <input type="text" id="category" name="category" required>
+        </div>
+
+        <div class="form-group">
+            <label for="status">Estado</label>
+            <select id="status" name="status" required>
+                <option value="true">Activo</option>
+                <option value="false">Inactivo</option>
+            </select>
+        </div>
+
+        <button type="submit">Crear Producto</button>
+    </form>
+
+  <div id="productList" class="product-list"></div>
         {{#each products}}
             <div class="product-card">
                 <h3>{{this.title}}</h3>
@@ -53,6 +141,57 @@
             </div>
         {{/each}}
     </div>
-</div>
+    <script src="/socket.io/socket.io.js"></script>
 
-<div id="notification"></div>
+    <script>
+        const socket = io();
+        
+        // Capturar el formulario
+        document.getElementById('productForm').addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevenir el envío tradicional del formulario
+            
+            // Capturar los datos del formulario
+            const formData = new FormData(e.target);
+            const product = {
+                title: formData.get('title'),
+                description: formData.get('description'),
+                price: parseFloat(formData.get('price')),
+                code: formData.get('code'),
+                stock: parseInt(formData.get('stock')),
+                category: formData.get('category'),
+                status: formData.get('status') === 'true' // Convertir a booleano
+            };
+
+            try {
+                // Enviar la data al backend usando fetch
+                const response = await fetch('http://localhost:8080/api/product', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(product)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error al crear el producto');
+                }
+
+                const result = await response.json();
+                console.log('Producto creado:', result);
+
+                // Emitir evento allProducts
+                socket.emit('allProducts',result);
+
+
+                // Reiniciar el formulario
+                e.target.reset();
+
+                alert('Producto creado exitosamente');
+            } catch (error) {
+                console.error('Error al crear el producto:', error);
+                alert('Hubo un error al crear el producto');
+            }
+        });
+    </script>
+</body>
+</html>
