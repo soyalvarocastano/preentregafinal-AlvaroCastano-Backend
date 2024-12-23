@@ -1,0 +1,15 @@
+
+    [
+    {"title":"Taylor 414ce", "description":"V-Class edicion especial gran auditorio.", "code":"tay1", "price":2.999, "imagen":"", "status":"true", "stock":"10", "category":"Guitarras"},
+    {"title":"Yamaha F335", "description":"Guitarra acustica negra.", "code":"yam1", "price":189.99, "imagen":"", "status":"true", "stock":"10", "category":"Guitarras"},
+    {"title":"Martin Special Dreadnought X1AE", "description":"Guitarra electroacustica natural.", "code":"mar1", "price":649.99, "imagen":"", "status":"true", "stock":"10", "category":"Guitarras"},
+    {"title":"Fender FA-135CE", "description":"Guitarra electroacustica de concierto Sunburst.", "code":"fen1", "price":199.99, "imagen":"", "status":"true", "stock":"10", "category":"Guitarras"},
+    {"title":"Nord Stage 4 88", "description":"Diseño de panel intuitivo, un teclado de 88 teclas de triple sensor totalmente ponderado.", "code":"nor1", "precio":5.699, "imagen":"", "status":"true", "stock":"10", "category":"Pianos"},
+    {"title":"Piano digital Yamaha", "description":"Teclado digital piano negro.", "code":"yam2", "price":1.599, "imagen":"", "status":"true", "stock":"10", "category":"Pianos"},
+    {"title":"Roland RD-88EX ", "description":" Teclado de escenario Roland RD-88EX negro.", "code":"rol1", "price":2.999, "imagen":"", "status":"true", "stock":"10", "category":"Pianos"},
+    {"title":"KORG Grandstage X", "description":"Piano de escenario blanco.", "code":"kor1", "price":2.999, "imagen":"", "status":"true", "stock":"10", "category":"Pianos"},
+    {"title":"Shure SM58", "description":"Micrófono dinámico cardioide con cable Shure SM58 Special Black Edition.", "code":"shur1", "price":99.00, "imagen":"", "status":"true", "stock":"10", "category":"Microfono"},
+    {"title":"Shure BETA 58A", "description":"Micrófono vocal dinámico supercardioide Shure BETA 58A.", "code":"shur2", "price":169.99, "imagen":"", "status":"true", "stock":"10", "category":"Microfono"},
+    {"title":"Warm Audio WA-8000", "description":"Micrófono de condensador de tubo de diafragma grande Warm Audio WA-8000, color negro.", "code":"war1", "price":1.199, "imagen":"", "status":"true", "stock":"10", "category":"Microfono"},
+    {"title":"Shure BLX24R/SM58", "description":"Sistema inalámbrico Shure BLX24R/SM58 con receptor montable en rack y cápsula de micrófono SM58 Band H9.", "code":"shur3", "price":429.00, "imagen":"", "status":"true", "stock":"10", "category":"Microfono" }
+]
