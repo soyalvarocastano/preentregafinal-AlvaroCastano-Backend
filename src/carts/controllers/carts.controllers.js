@@ -18,10 +18,14 @@ export const getAllCartsByToken = controller(async (req, res) => {
 
 // Crear un carrito nuevo
 export const createCart = controller(async (req, res) => {
-    const {product_id} = req.body
-    const newCart = await cartService.create({product_id, token: crypto.randomBytes(16).toString('hex')});
+    const { product_id } = req.body; // Asegúrate de que el product_id sea válido
+    const newCart = await cartService.create({
+        products: [{ product: product_id }], // Estructura correcta de datos para productos
+        token: crypto.randomBytes(16).toString('hex'), // Generación del token
+    });
     res.status(201).json(newCart);
 });
+
 
 // Obtener productos del carrito
 export const getCartById = controller(async (req, res) => {

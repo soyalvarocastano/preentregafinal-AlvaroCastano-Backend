@@ -23,7 +23,7 @@ export default class CartService extends Service {
         return record;
     }
     
-
+//añadir un nuevo producto por medio del token que me da el carrito que creamos
 
     async addProductToCart(cartId, productId) {
         const cart = await this.getById(cartId);
