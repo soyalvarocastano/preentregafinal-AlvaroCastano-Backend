@@ -26,18 +26,18 @@ router.get("/:token", controller(getAllCartsByToken));
 router.get("/:cid", getCartById);
 
 // Agregar producto al carrito
-router.post("/:cid/products/:pid", addProductToCart);
+router.post("/:token/products", addProductToCart);
 
 // Eliminar un producto del carrito
-router.delete("/:cid/products/:pid", deleteProductFromCart);
+router.delete("/:token/products/:productId", deleteProductFromCart);
 
 // Actualizar el carrito completo
-router.put("/:cid", updateCart);
+router.put("/:token", updateCart);
 
 // Actualizar cantidad de un producto en el carrito
-router.put("/:cid/products/:pid", updateProductQuantity);
+router.put("/:token/products/:productId", updateProductQuantity);
 
 // Eliminar todos los productos del carrito
-router.delete("/:cid", deleteAllProducts);
+router.delete("/:token", deleteAllProducts);
 
 export default router;

@@ -6,28 +6,28 @@ const cartService = new CartService();
 
 // Obtener todos los carritos
 export const getAllCarts = controller(async (req, res) => {
-    const carts = await cartService.getAllCarts("products"); // Ajusta si es necesario
+    const carts = await cartService.getAllCarts("products"); 
     res.status(200).json(carts);
 });
 
 export const getAllCartsByToken = controller(async (req, res) => {
-    const carts = await cartService.getByToken(req.params.token); // Ajusta si es necesario
+    const carts = await cartService.getByToken(req.params.token); 
     res.status(200).json(carts);
 });
 
 
-// Crear un carrito nuevo
+
 export const createCart = controller(async (req, res) => {
-    const { product_id } = req.body; // Asegúrate de que el product_id sea válido
+    const { product_id } = req.body; 
     const newCart = await cartService.create({
-        products: [{ product: product_id }], // Estructura correcta de datos para productos
-        token: crypto.randomBytes(16).toString('hex'), // Generación del token
+        products: [{ product: product_id }], 
+        token: crypto.randomBytes(16).toString('hex'), 
     });
     res.status(201).json(newCart);
 });
 
 
-// Obtener productos del carrito
+
 export const getCartById = controller(async (req, res) => {
     const { cid } = req.params;
     const cart = await cartService.getById(cid);
@@ -35,44 +35,81 @@ export const getCartById = controller(async (req, res) => {
     res.json(cart);
 });
 
-// Agregar producto al carrito
+
 export const addProductToCart = controller(async (req, res) => {
-    const { cid, pid } = req.params;
-    const updatedCart = await cartService.addProductToCart(cid, pid);
-    res.json(updatedCart);
-});
 
-// Eliminar producto específico del carrito
-export const deleteProductFromCart = controller(async (req, res) => {
-    const { cid, pid } = req.params; // Extraer los parámetros de la URL (carrito y producto)
-    const updatedCart = await cartService.deleteProductFromCart(cid, pid); // Llamar al servicio para eliminar el producto
-    res.json(updatedCart); // Responder con el carrito actualizado
-});
+    const { token } = req.params; 
+    const { product_id, quantity } = req.body; 
 
-// Actualizar carrito completo
-export const updateCart = controller(async (req, res) => {
-    const { cid } = req.params;
-    const { products } = req.body;
-    const updatedCart = await cartService.update(cid, { products });
-    res.json(updatedCart);
-});
-
-// Actualizar cantidad de un producto
-export const updateProductQuantity = controller(async (req, res) => {
-    const { cid, pid } = req.params;
-    const { quantity } = req.body;
-
-    if (typeof quantity !== 'number' || quantity <= 0) {
-        return res.status(400).json({ error: "La cantidad debe ser un número mayor a 0" });
+    if (!product_id) {
+        return res.status(400).json({ error: "El ID del producto es obligatorio" });
     }
 
-    const updatedCart = await cartService.updateProductQuantity(cid, pid, quantity);
-    res.json(updatedCart);
+    const updatedCart = await cartService.addProductToCartByToken(token, product_id, quantity || 1);
+    res.status(200).json(updatedCart); 
+
 });
 
-// Eliminar todos los productos del carrito
-export const deleteAllProducts = controller(async (req, res) => {
-    const { cid } = req.params;
-    const updatedCart = await cartService.deleteAllProducts(cid);
-    res.json(updatedCart);
-});
+export const updateCart = async (req, res, next) => {
+    const { token } = req.params;
+    const { products } = req.body; 
+    
+    if (!Array.isArray(products)) {
+        return res.status(400).json({
+            message: 'El formato del cuerpo debe ser un array de productos',
+        });
+    }
+
+    try {
+        const updatedCart = await cartService.updateCartByToken(token, products);
+
+        return res.status(200).json({
+            message: 'Carrito actualizado exitosamente',
+            cart: updatedCart,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+export const updateProductQuantity = async (req, res, next) => {
+    try {
+        const { token, productId } = req.params; 
+        const { quantity } = req.body;
+
+        if (!productId) {
+            throw new Error("El productId es obligatorio");
+        }
+
+        const updatedCart = await cartService.updateProductQuantityByToken(token, productId, quantity);
+
+        res.status(200).json(updatedCart);
+    } catch (error) {
+        next(error); 
+    }
+};
+
+
+
+export const deleteProductFromCart = async (req, res, next) => {
+    const { token, productId } = req.params;
+
+    const updatedCart = await cartService.deleteProductFromCart(token, productId);
+
+    res.status(200).json({
+        message: "Producto eliminado exitosamente del carrito",
+        cart: updatedCart
+    });
+};
+
+export const deleteAllProducts = async (req, res, next) => {
+    const { token } = req.params;
+
+    try {
+        const response = await cartService.deleteAllProductsByToken(token);
+        res.status(200).json(response);
+    } catch (error) {
+        next(error);
+    }
+};
