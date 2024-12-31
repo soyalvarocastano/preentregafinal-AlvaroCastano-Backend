@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+    <nav class="bg-blue-500 p-4 text-white">
+        <ul class="flex justify-between">
+            <li><a href="/" class="text-xl">Home</a></li>
+            <li><a href="/cart" class="text-xl">Cart</a></li>
+        </ul>
+    </nav>
+
+    <div class="container mx-auto p-8">
+        <h1 class="text-3xl font-bold mb-6">Your Cart</h1>
+        <div class="space-y-6">
+            {{#each cart.products}}
+                <div class="flex justify-between items-center bg-white p-4 rounded-lg shadow-lg">
+                    <div>
+                        <h3 class="text-xl">{{this.product.title}}</h3>
+                        <p class="text-gray-500">{{this.product.description}}</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button class="bg-blue-500 text-white py-1 px-2 rounded">-</button>
+                        <span>{{this.quantity}}</span>
+                        <button class="bg-blue-500 text-white py-1 px-2 rounded">+</button>
+                        <button class="bg-red-500 text-white py-1 px-2 rounded">Remove</button>
+                    </div>
+                </div>
+            {{/each}}
+
+            <div class="mt-6 text-right">
+                <p class="font-semibold">Total: ${{totalPrice}}</p>
+                <button class="bg-red-500 text-white py-2 px-4 rounded mt-4">Clear Cart</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

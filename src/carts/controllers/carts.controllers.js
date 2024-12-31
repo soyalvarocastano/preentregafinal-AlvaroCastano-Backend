@@ -4,7 +4,6 @@ import crypto from 'crypto';
 
 const cartService = new CartService();
 
-// Obtener todos los carritos
 export const getAllCarts = controller(async (req, res) => {
     const carts = await cartService.getAllCarts("products"); 
     res.status(200).json(carts);
